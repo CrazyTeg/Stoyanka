@@ -10,46 +10,45 @@ namespace Stoyanka
     {
         static void Main(string[] args)
         {
-            Stack<int> camp = new Stack<int>();
+            Stack<int> parking = new Stack<int>();
             bool stop = false;
 
             while (!stop)
             {
-
                 Console.WriteLine("Для размещения заказа введите: въехать на стоянку ");
                 Console.WriteLine("Для выполнения заказа введите: покинуть стоянку ");
                 Console.WriteLine("Для выхода из программы введите: выход ");
-                var command = Console.ReadLine();
-                if (command == "въехать на стоянку" & camp.Count < 5)        //  Задаем лимит очереди
+                string command = Console.ReadLine();
+                if (command == "въехать на стоянку" & parking.Count < 5)        //  Задаем размер стека
                 {
                     Console.WriteLine("Введите номер борта: ");
-                    Fond2:
-                    var nomer = Console.ReadLine();
+                    string inputNumber = Console.ReadLine();
 
-                    if (Int32.TryParse(nomer, out int numz)) { }
+                    if (Int32.TryParse(inputNumber, out int numberBort))
+                    {
+                        parking.Push(numberBort);                         // Добавляем заказ в стек
+                        Console.WriteLine("Количество самолетов на стоянке {0}", parking.Count);  // Выводим размер стека
+                        Console.WriteLine("Готов покинуть стоянку борт №{0}", parking.Peek());
+                        Console.WriteLine();
+                    }
                     else
                     {
-                        Console.WriteLine(">>> Некорректный ввод, введите номер: <<<");
-                        goto Fond2;
+                        Console.WriteLine(">>> Некорректный ввод номера! <<<");
                     }
-                    camp.Push(numz);                         // Добавляем заказ в очередь
-                    Console.WriteLine("Количество самолетов на стоянке {0}", camp.Count);  // Выводим размер очереди
-                    Console.WriteLine("Готов покинуть стоянку борт №{0}", camp.Peek());
-                    Console.WriteLine();
                 }
                 else if (command == "покинуть стоянку")
                 {
-                    if (camp.Count == 0) { Console.WriteLine("Стоянка пуста."); }
+                    if (parking.Count == 0) { Console.WriteLine("Стоянка пуста."); }
                     else
                     {
-                        var v = camp.Pop();     //  Удаляем заказ из очереди
+                        var v = parking.Pop();     //  Удаляем заказ из очереди
 
                         Console.WriteLine("Борт №{0} покинул стоянку", v);   //  Выводим удаленный элемент на экран
                         Console.WriteLine();
-                        if (camp.Count == 0) { Console.WriteLine("Стоянка пуста."); }
+                        if (parking.Count == 0) { Console.WriteLine("Стоянка пуста."); }
                         else
                         {
-                            Console.WriteLine("Готов покинуть стоянку борт №{0}", camp.Peek());//  Выводим следующий элемент на экран
+                            Console.WriteLine("Готов покинуть стоянку борт №{0}", parking.Peek());//  Выводим следующий элемент на экран
                             Console.WriteLine();
                         }
                         
@@ -59,7 +58,7 @@ namespace Stoyanka
                 {
                     stop = true;
                 }
-                else if (camp.Count >= 5)
+                else if (parking.Count >= 5)
                 {
                     Console.WriteLine("Стоянка заполнена, мест нет. СОВСЕМ НЕТ!!!");
                     Console.WriteLine();
